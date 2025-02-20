@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -114,7 +113,7 @@ export const BookingCalendar = () => {
                 Nouvelle réservation
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
               <DialogHeader>
                 <DialogTitle>Nouvelle réservation</DialogTitle>
               </DialogHeader>
@@ -124,7 +123,6 @@ export const BookingCalendar = () => {
         </div>
       </div>
       <div className="grid grid-cols-[250px_auto_1fr] h-[600px] overflow-y-auto">
-        {/* Colonne des véhicules */}
         <div className="border-r">
           <div className="h-8 border-b bg-white font-medium p-2">Véhicules</div>
           <div className="space-y-[2px]">
@@ -139,7 +137,6 @@ export const BookingCalendar = () => {
             ))}
           </div>
         </div>
-        {/* Colonne des heures */}
         <div className="w-16 border-r bg-white">
           <div className="h-8 border-b" />
           <div className="space-y-3 p-2">
@@ -148,7 +145,6 @@ export const BookingCalendar = () => {
             ))}
           </div>
         </div>
-        {/* Grille du calendrier */}
         <div>
           <div className="grid grid-cols-7 border-b">
             {weekDays.map((day) => (
