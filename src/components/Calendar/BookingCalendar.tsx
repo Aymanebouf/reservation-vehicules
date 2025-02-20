@@ -446,22 +446,24 @@ export const BookingCalendar = () => {
         </div>
       </div>
       <div className="flex flex-col">
+        {/* En-tête avec les heures */}
         <div className="flex border-b">
-          <div className="w-48 flex-shrink-0 border-r">
-            <div className="p-2 font-medium">Véhicules</div>
+          <div className="w-48 flex-shrink-0 border-r p-2 font-medium">
+            Véhicules
           </div>
-          <div className="flex-1">
-            <div className="grid grid-cols-7">
-              {weekDays.map((day, index) => (
-                <div key={day} className="border-l first:border-l-0">
-                  <div className="p-2 text-xs font-medium">{day}</div>
-                  <div className="p-2 text-xs text-gray-500">{`${index + 17}.02.2025`}</div>
-                </div>
-              ))}
-            </div>
+          <div className="flex flex-1 overflow-x-auto">
+            {Array.from({ length: 24 }, (_, i) => (
+              <div 
+                key={i} 
+                className="flex-shrink-0 w-20 border-r px-2 py-2 text-xs text-gray-500 text-center"
+              >
+                {`${i}:00`}
+              </div>
+            ))}
           </div>
         </div>
 
+        {/* Timeline pour chaque véhicule */}
         <div className="overflow-auto">
           {vehicles.map((vehicle) => (
             <div key={vehicle.id} className="flex border-b">
@@ -474,33 +476,25 @@ export const BookingCalendar = () => {
                   </div>
                 </div>
               </div>
-
-              <div className="flex-1">
-                <div className="grid grid-cols-7 h-full">
-                  {Array.from({ length: 7 }).map((_, dayIndex) => (
-                    <div key={dayIndex} className="border-l first:border-l-0 relative">
-                      <div className="absolute inset-0 grid grid-rows-24">
-                        {Array.from({ length: 24 }).map((_, hour) => (
-                          <div key={hour} className="border-b">
-                            <div className="text-[10px] text-gray-400 pl-1">
-                              {`${hour}:00`}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      {vehicle.id === "A025" && dayIndex === 2 && (
-                        <div 
-                          className="absolute top-[33.33%] left-0 right-0 bg-blue-100 border border-blue-200 m-1 p-1 rounded-sm text-xs"
-                          style={{ height: "12.5%" }}
-                        >
-                          <div className="font-medium truncate">Réservation</div>
-                          <div className="text-gray-500 truncate">8:00 - 11:00</div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+              <div className="flex flex-1 relative">
+                {Array.from({ length: 24 }, (_, i) => (
+                  <div 
+                    key={i} 
+                    className="flex-shrink-0 w-20 border-r hover:bg-gray-50 transition-colors"
+                  >
+                    {/* Espace pour les réservations */}
+                  </div>
+                ))}
+                {/* Exemple de réservation (à adapter selon vos données) */}
+                {vehicle.id === "A025" && (
+                  <div 
+                    className="absolute top-1 left-[160px] w-[160px] bg-blue-100 border border-blue-200 rounded-sm p-1 text-xs"
+                    style={{ height: "calc(100% - 8px)" }}
+                  >
+                    <div className="font-medium">Réservation</div>
+                    <div className="text-gray-500">8:00 - 12:00</div>
+                  </div>
+                )}
               </div>
             </div>
           ))}
