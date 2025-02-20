@@ -315,7 +315,20 @@ export const BookingCalendar = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Partage de voiture</h1>
-        <Button>Nouvelle réservation</Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="gap-2">
+              <PlusCircle className="h-4 w-4" />
+              Nouvelle réservation
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
+            <DialogHeader>
+              <DialogTitle>Nouvelle réservation</DialogTitle>
+            </DialogHeader>
+            <NewBookingForm />
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="flex border-b">
