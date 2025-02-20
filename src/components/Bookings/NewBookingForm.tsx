@@ -1,9 +1,6 @@
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -11,37 +8,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MapPin, Plus } from "lucide-react";
+import { MapPin, Plus, X } from "lucide-react";
 import Map from "../Map/Map";
+import { Textarea } from "@/components/ui/textarea";
 
 const NewBookingForm = () => {
-  const [showAddStop, setShowAddStop] = useState(false);
-
   return (
-    <div className="grid grid-cols-2 gap-8 h-[calc(100vh-12rem)]">
-      <div className="space-y-6 overflow-y-auto p-4">
+    <div className="grid grid-cols-[45%_55%] gap-6 h-[calc(100vh-10rem)]">
+      <div className="space-y-8 p-6">
         <div>
-          <h2 className="text-lg font-semibold mb-6">Détails du voyage</h2>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Durée</Label>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-500">Depuis</p>
-                  <Input type="date" />
-                  <Input type="time" />
+          <h2 className="text-xl font-medium text-slate-900 mb-6">Détails du voyage</h2>
+          
+          <div className="space-y-6">
+            <div>
+              <div className="text-sm font-medium mb-2">Durée</div>
+              <div className="space-y-4">
+                <div>
+                  <div className="text-sm text-gray-500 mb-1">Depuis</div>
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <Input defaultValue="20.02.2025" />
+                    </div>
+                    <div className="flex-1">
+                      <Input defaultValue="12:51" />
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-500">À</p>
-                  <Input type="date" />
-                  <Input type="time" />
+                <div>
+                  <div className="text-sm text-gray-500 mb-1">À</div>
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <Input defaultValue="20.02.2025" />
+                    </div>
+                    <div className="flex-1">
+                      <Input defaultValue="13:51" />
+                    </div>
+                  </div>
                 </div>
+                <div className="text-sm text-gray-500">Booking time: 1h</div>
               </div>
-              <p className="text-sm text-gray-500">Booking time: 1h</p>
             </div>
 
-            <div className="space-y-2">
-              <Label>Conducteur</Label>
+            <div>
+              <div className="text-sm font-medium mb-2">Conducteur</div>
               <Select>
                 <SelectTrigger>
                   <SelectValue placeholder="Sélectionnez le pilote" />
@@ -53,11 +62,13 @@ const NewBookingForm = () => {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label>Détails de l'itinéraire</Label>
+            <div>
+              <div className="text-sm font-medium mb-2">Détails de l'itinéraire</div>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 p-2 border rounded-md">
-                  <MapPin className="h-4 w-4 text-green-500" />
+                  <div className="bg-green-100 p-1 rounded">
+                    <MapPin className="h-4 w-4 text-green-600" />
+                  </div>
                   <Select>
                     <SelectTrigger className="border-0 p-0 h-auto">
                       <SelectValue placeholder="Base de départ" />
@@ -68,17 +79,17 @@ const NewBookingForm = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                {showAddStop && (
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex-1">
                     <Input placeholder="Rechercher une adresse" />
-                    <Button variant="ghost" size="icon" type="button">×</Button>
                   </div>
-                )}
+                  <Button variant="ghost" size="icon">
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
                 <Button
-                  type="button"
                   variant="ghost"
-                  className="w-full justify-start text-primary"
-                  onClick={() => setShowAddStop(true)}
+                  className="w-full justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Ajouter un arrêt
@@ -86,27 +97,26 @@ const NewBookingForm = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>Transmission</Label>
-              <div className="flex gap-2">
+            <div>
+              <div className="text-sm font-medium mb-2">Transmission</div>
+              <div className="flex gap-1">
                 <Button
-                  type="button"
                   variant="outline"
-                  className="flex-1 bg-primary text-white hover:bg-primary/90"
+                  className="flex-1 bg-blue-600 text-white border-blue-600 hover:bg-blue-700 hover:text-white"
                 >
                   N'importe lequel
                 </Button>
-                <Button type="button" variant="outline" className="flex-1">
+                <Button variant="outline" className="flex-1">
                   Manuel
                 </Button>
-                <Button type="button" variant="outline" className="flex-1">
+                <Button variant="outline" className="flex-1">
                   Automatique
                 </Button>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>Type de véhicule</Label>
+            <div>
+              <div className="text-sm font-medium mb-2">Type de véhicule</div>
               <Select>
                 <SelectTrigger>
                   <SelectValue placeholder="N'importe lequel" />
@@ -119,8 +129,8 @@ const NewBookingForm = () => {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label>Des places</Label>
+            <div>
+              <div className="text-sm font-medium mb-2">Des places</div>
               <Select>
                 <SelectTrigger>
                   <SelectValue placeholder="N'importe lequel" />
@@ -134,9 +144,9 @@ const NewBookingForm = () => {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label>Remarques</Label>
-              <Textarea className="h-20 resize-none" />
+            <div>
+              <div className="text-sm font-medium mb-2">Remarques</div>
+              <Textarea className="min-h-[100px] resize-none" />
             </div>
           </div>
         </div>
