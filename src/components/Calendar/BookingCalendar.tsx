@@ -445,63 +445,65 @@ export const BookingCalendar = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-[250px_auto_1fr] h-[calc(100vh-20rem)] overflow-hidden">
-        <div className="border-r">
-          <div className="h-16 border-b bg-white font-medium p-2">Véhicules</div>
-          <div className="space-y-[2px]">
-            {vehicles.map((vehicle) => (
-              <div 
-                key={vehicle.id} 
-                className="flex items-center gap-2 p-2 hover:bg-slate-50"
-              >
-                <CarFront className="h-4 w-4 text-slate-500" />
-                <span className="text-sm">{vehicle.name}</span>
-              </div>
-            ))}
+      <div className="flex flex-col">
+        <div className="flex border-b">
+          <div className="w-48 flex-shrink-0 border-r">
+            <div className="p-2 font-medium">Véhicules</div>
           </div>
-        </div>
-        <div className="w-16 border-r bg-white">
-          <div className="h-16 border-b" />
-          <div className="space-y-3 p-2">
-            {Array.from({ length: 24 }, (_, i) => (
-              <div key={i} className="text-xs text-slate-500">{`${i}:00`}</div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <div className="flex flex-col border-b h-16">
-            <div className="grid grid-cols-7 h-8">
-              {weekDays.map((day) => (
-                <div key={day} className="h-8 border-l p-2 text-xs font-medium first:border-l-0">
-                  {day}
-                </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-7 h-8">
-              {weekDays.map((_, index) => (
-                <div key={index} className="h-8 border-l p-2 text-xs text-gray-500 first:border-l-0">
-                  {`${index + 17}.02.2025`}
+          <div className="flex-1">
+            <div className="grid grid-cols-7">
+              {weekDays.map((day, index) => (
+                <div key={day} className="border-l first:border-l-0">
+                  <div className="p-2 text-xs font-medium">{day}</div>
+                  <div className="p-2 text-xs text-gray-500">{`${index + 17}.02.2025`}</div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-7">
-            {Array.from({ length: 7 }).map((_, dayIndex) => (
-              <div key={dayIndex} className="border-l first:border-l-0">
-                {Array.from({ length: 24 }).map((_, hourIndex) => (
-                  <div key={hourIndex} className="h-6 border-b">
-                    {/* Exemple de réservation */}
-                    {dayIndex === 2 && hourIndex === 10 && (
-                      <div className="bg-blue-100 border border-blue-200 p-1 text-xs m-0.5 rounded">
-                        <div className="font-medium truncate">Réservation</div>
-                        <div className="text-gray-500 truncate">10:00 - 12:00</div>
-                      </div>
-                    )}
+        </div>
+
+        <div className="overflow-auto">
+          {vehicles.map((vehicle) => (
+            <div key={vehicle.id} className="flex border-b">
+              <div className="w-48 flex-shrink-0 border-r p-2">
+                <div className="flex items-center gap-2">
+                  <CarFront className="h-4 w-4 text-slate-500" />
+                  <div>
+                    <div className="text-sm font-medium">{vehicle.id}</div>
+                    <div className="text-xs text-gray-500">{vehicle.name}</div>
                   </div>
-                ))}
+                </div>
               </div>
-            ))}
-          </div>
+
+              <div className="flex-1">
+                <div className="grid grid-cols-7 h-full">
+                  {Array.from({ length: 7 }).map((_, dayIndex) => (
+                    <div key={dayIndex} className="border-l first:border-l-0 relative">
+                      <div className="absolute inset-0 grid grid-rows-24">
+                        {Array.from({ length: 24 }).map((_, hour) => (
+                          <div key={hour} className="border-b">
+                            <div className="text-[10px] text-gray-400 pl-1">
+                              {`${hour}:00`}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {vehicle.id === "A025" && dayIndex === 2 && (
+                        <div 
+                          className="absolute top-[33.33%] left-0 right-0 bg-blue-100 border border-blue-200 m-1 p-1 rounded-sm text-xs"
+                          style={{ height: "12.5%" }}
+                        >
+                          <div className="font-medium truncate">Réservation</div>
+                          <div className="text-gray-500 truncate">8:00 - 11:00</div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </Card>
