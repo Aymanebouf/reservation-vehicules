@@ -1,10 +1,7 @@
 
 import { BookingCalendar } from "@/components/Calendar/BookingCalendar";
 import { Sidebar } from "@/components/Layout/Sidebar";
-import { VehicleList } from "@/components/Vehicles/VehicleList";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
 
 const Index = () => {
   const location = useLocation();
@@ -19,7 +16,7 @@ const Index = () => {
       <Sidebar />
       <main className="flex-1">
         <div className="border-b">
-          <div className="flex h-16 items-center justify-between px-8">
+          <div className="flex h-16 items-center px-8">
             <nav className="flex space-x-8">
               {tabs.map((tab) => (
                 <Link
@@ -35,19 +32,10 @@ const Index = () => {
                 </Link>
               ))}
             </nav>
-            <Button className="gap-2">
-              <PlusCircle className="h-4 w-4" />
-              Nouvelle réservation
-            </Button>
           </div>
         </div>
-        <div className="flex gap-8 p-8">
-          <div className="w-80">
-            <VehicleList />
-          </div>
-          <div className="flex-1">
-            <BookingCalendar />
-          </div>
+        <div className="p-8">
+          <BookingCalendar />
         </div>
       </main>
     </div>

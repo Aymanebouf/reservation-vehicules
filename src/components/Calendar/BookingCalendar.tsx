@@ -9,9 +9,77 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { CarFront, PlusCircle } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const weekDays = ["Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim."];
 const timeSlots = Array.from({ length: 24 }, (_, i) => `${i}:00`);
+const vehicles = [
+  {
+    id: "A025",
+    name: "Toyota Yaris",
+    status: "Disponible",
+    type: "Citadine",
+  },
+  {
+    id: "A030",
+    name: "Renault Clio",
+    status: "En cours",
+    type: "Citadine",
+  },
+];
+
+const NewBookingForm = () => {
+  return (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="driver">Conducteur</Label>
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Sélectionnez le conducteur" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="john">John Doe</SelectItem>
+            <SelectItem value="jane">Jane Smith</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="vehicle">Véhicule</Label>
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Sélectionnez le véhicule" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="a025">A025 - Toyota Yaris</SelectItem>
+            <SelectItem value="a030">A030 - Renault Clio</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="start">Date de début</Label>
+          <Input type="datetime-local" id="start" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="end">Date de fin</Label>
+          <Input type="datetime-local" id="end" />
+        </div>
+      </div>
+      <div className="pt-4 flex justify-end">
+        <Button>Réserver</Button>
+      </div>
+    </div>
+  );
+};
 
 export const BookingCalendar = () => {
   return (
@@ -39,38 +107,40 @@ export const BookingCalendar = () => {
               Semaine
             </button>
           </div>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select Depot" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="depot1">Depot 1</SelectItem>
-              <SelectItem value="depot2">Depot 2</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sélectionnez le pilote" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="pilot1">Pilot 1</SelectItem>
-              <SelectItem value="pilot2">Pilot 2</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Tous les statuts" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous</SelectItem>
-              <SelectItem value="active">Actif</SelectItem>
-              <SelectItem value="inactive">Inactif</SelectItem>
-            </SelectContent>
-          </Select>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="gap-2">
+                <PlusCircle className="h-4 w-4" />
+                Nouvelle réservation
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+              <DialogHeader>
+                <DialogTitle>Nouvelle réservation</DialogTitle>
+              </DialogHeader>
+              <NewBookingForm />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
-      <div className="grid h-[400px] grid-cols-[auto_1fr] overflow-auto">
-        <div className="sticky left-0 w-16 border-r bg-white">
+      <div className="grid grid-cols-[250px_auto_1fr] h-[600px] overflow-y-auto">
+        {/* Colonne des véhicules */}
+        <div className="border-r">
+          <div className="h-8 border-b bg-white font-medium p-2">Véhicules</div>
+          <div className="space-y-[2px]">
+            {vehicles.map((vehicle) => (
+              <div 
+                key={vehicle.id} 
+                className="flex items-center gap-2 p-2 hover:bg-slate-50"
+              >
+                <CarFront className="h-4 w-4 text-slate-500" />
+                <span className="text-sm">{vehicle.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Colonne des heures */}
+        <div className="w-16 border-r bg-white">
           <div className="h-8 border-b" />
           <div className="space-y-3 p-2">
             {timeSlots.map((time) => (
@@ -78,6 +148,7 @@ export const BookingCalendar = () => {
             ))}
           </div>
         </div>
+        {/* Grille du calendrier */}
         <div>
           <div className="grid grid-cols-7 border-b">
             {weekDays.map((day) => (
