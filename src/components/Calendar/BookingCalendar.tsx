@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, CarFront, PlusCircle, Edit, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PlusCircle, Edit, Search, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -20,8 +20,10 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import NewBookingForm from "../Bookings/NewBookingForm";
+import { CalendarHeader } from "./CalendarHeader";
+import { TimeHeader } from "./TimeHeader";
+import { CalendarTimeline } from "./CalendarTimeline";
 
-const weekDays = ["Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim."];
 const vehicles = [
   {
     id: "A025",
@@ -93,6 +95,16 @@ export const BookingCalendar = () => {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+
+  const renderCalendar = () => (
+    <Card className="overflow-hidden">
+      <CalendarHeader />
+      <div className="flex flex-col">
+        <TimeHeader />
+        <CalendarTimeline vehicles={vehicles} />
+      </div>
+    </Card>
   );
 
   const renderVehicleList = () => (
@@ -416,95 +428,6 @@ export const BookingCalendar = () => {
         </div>
       </Card>
     </div>
-  );
-
-  const renderCalendar = () => (
-    <Card className="overflow-hidden">
-      <div className="border-b p-4">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <input
-              type="text"
-              value="17.02.2025 - 23.02.2025"
-              className="w-44 rounded-md border px-3 py-1"
-            />
-            <Button variant="outline" size="icon">
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon">
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="rounded-md bg-primary px-3 py-1 text-sm text-white">
-              Jour
-            </button>
-            <button className="rounded-md bg-slate-100 px-3 py-1 text-sm">
-              Semaine
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <div className="flex border-b">
-          <div className="w-48 flex-shrink-0 border-r p-2 font-medium">
-            Véhicules
-          </div>
-          <div className="flex flex-1 overflow-x-auto">
-            {Array.from({ length: 24 }, (_, i) => (
-              <div 
-                key={i} 
-                className="flex-shrink-0 w-20 border-r px-2 py-2 text-xs text-gray-500 text-center"
-              >
-                {`${i}:00`}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="overflow-auto">
-          {vehicles.map((vehicle) => (
-            <div key={vehicle.id} className="flex border-b">
-              <div className="w-48 flex-shrink-0 border-r p-2">
-                <div className="flex items-center gap-2">
-                  <CarFront className="h-4 w-4 text-slate-500" />
-                  <div>
-                    <div className="text-sm font-medium">{vehicle.id}</div>
-                    <div className="text-xs text-gray-500">{vehicle.name}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-1 relative">
-                {Array.from({ length: 24 }, (_, hour) => (
-                  <Dialog key={hour}>
-                    <DialogTrigger asChild>
-                      <button 
-                        className="flex-shrink-0 w-20 border-r hover:bg-gray-50 transition-colors cursor-pointer h-full"
-                      />
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
-                      <DialogHeader>
-                        <DialogTitle>Nouvelle réservation</DialogTitle>
-                      </DialogHeader>
-                      <NewBookingForm />
-                    </DialogContent>
-                  </Dialog>
-                ))}
-                {vehicle.id === "A025" && (
-                  <div 
-                    className="absolute top-1 left-[160px] w-[160px] bg-blue-100 border border-blue-200 rounded-sm p-1 text-xs"
-                    style={{ height: "calc(100% - 8px)" }}
-                  >
-                    <div className="font-medium">Réservation</div>
-                    <div className="text-gray-500">8:00 - 12:00</div>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </Card>
   );
 
   return (
