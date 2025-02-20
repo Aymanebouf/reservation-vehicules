@@ -1,6 +1,5 @@
-
 import { Card } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, CarFront, PlusCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, CarFront, PlusCircle, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -40,6 +39,145 @@ type TabType = 'calendar' | 'list' | 'vehicles';
 
 export const BookingCalendar = () => {
   const [activeTab, setActiveTab] = useState<TabType>('calendar');
+
+  const renderVehicleList = () => (
+    <div className="space-y-4">
+      <div className="flex items-center gap-4">
+        <div className="space-y-1">
+          <div className="text-sm text-gray-500">Base</div>
+          <Select>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Select Depot" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="depot1">Depot Grisoni</SelectItem>
+              <SelectItem value="depot2">Depot Central</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-1">
+          <div className="text-sm text-gray-500">Statut</div>
+          <Select>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Tous les statuts" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous les statuts</SelectItem>
+              <SelectItem value="available">Disponible</SelectItem>
+              <SelectItem value="maintenance">En maintenance</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Card className="overflow-hidden">
+        <div className="relative overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-gray-50 text-gray-600">
+              <tr>
+                <th className="px-4 py-3">Véhicule</th>
+                <th className="px-4 py-3">Année</th>
+                <th className="px-4 py-3">Base</th>
+                <th className="px-4 py-3">Odomètre</th>
+                <th className="px-4 py-3">Statut</th>
+                <th className="px-4 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b">
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <CarFront className="h-4 w-4 text-slate-500" />
+                    <div>
+                      <div className="text-blue-600">A025</div>
+                      <div className="text-xs text-gray-500">-</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-4 py-3">-</td>
+                <td className="px-4 py-3">Depot Grisoni</td>
+                <td className="px-4 py-3">7'008,00km</td>
+                <td className="px-4 py-3">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Disponible
+                  </span>
+                </td>
+                <td className="px-4 py-3">
+                  <Button variant="ghost" size="icon">
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <CarFront className="h-4 w-4 text-slate-500" />
+                    <div>
+                      <div className="text-blue-600">A030</div>
+                      <div className="text-xs text-gray-500">Toyota Yaris</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-4 py-3">-</td>
+                <td className="px-4 py-3">Depot Grisoni</td>
+                <td className="px-4 py-3">3'806,00km</td>
+                <td className="px-4 py-3">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Disponible
+                  </span>
+                </td>
+                <td className="px-4 py-3">
+                  <Button variant="ghost" size="icon">
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <CarFront className="h-4 w-4 text-slate-500" />
+                    <div>
+                      <div className="text-blue-600">A050</div>
+                      <div className="text-xs text-gray-500">Toyota Procar City van</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-4 py-3">-</td>
+                <td className="px-4 py-3">Depot Grisoni</td>
+                <td className="px-4 py-3">3'637,00km</td>
+                <td className="px-4 py-3">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Disponible
+                  </span>
+                </td>
+                <td className="px-4 py-3">
+                  <Button variant="ghost" size="icon">
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="flex items-center justify-between px-4 py-3 bg-gray-50">
+            <div className="text-sm text-gray-700">
+              Nombre de lignes : 
+              <Select defaultValue="10">
+                <SelectTrigger className="w-[70px] ml-2">
+                  <SelectValue placeholder="10" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
 
   const renderBookingList = () => (
     <div className="space-y-4">
@@ -315,20 +453,27 @@ export const BookingCalendar = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Partage de voiture</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="gap-2">
-              <PlusCircle className="h-4 w-4" />
-              Nouvelle réservation
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
-            <DialogHeader>
-              <DialogTitle>Nouvelle réservation</DialogTitle>
-            </DialogHeader>
-            <NewBookingForm />
-          </DialogContent>
-        </Dialog>
+        {activeTab !== 'vehicles' ? (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="gap-2">
+                <PlusCircle className="h-4 w-4" />
+                Nouvelle réservation
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
+              <DialogHeader>
+                <DialogTitle>Nouvelle réservation</DialogTitle>
+              </DialogHeader>
+              <NewBookingForm />
+            </DialogContent>
+          </Dialog>
+        ) : (
+          <Button className="gap-2">
+            <PlusCircle className="h-4 w-4" />
+            Add vehicle
+          </Button>
+        )}
       </div>
 
       <div className="flex border-b">
@@ -354,6 +499,7 @@ export const BookingCalendar = () => {
 
       {activeTab === 'calendar' && renderCalendar()}
       {activeTab === 'list' && renderBookingList()}
+      {activeTab === 'vehicles' && renderVehicleList()}
     </div>
   );
 };
