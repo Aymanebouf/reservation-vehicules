@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -135,7 +136,7 @@ const NewBookingForm = () => {
 
             <div className="space-y-2">
               <Label>Remarques</Label>
-              <Input as="textarea" className="h-20 resize-none" />
+              <Textarea className="h-20 resize-none" />
             </div>
           </div>
         </div>
