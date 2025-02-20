@@ -1,22 +1,12 @@
 
-import { Calendar, CarFront, FileText } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const sidebarLinks = [
   {
-    title: "Calendrier de réservation",
+    title: "Réservation",
     icon: Calendar,
-    path: "/calendar",
-  },
-  {
-    title: "Réservations",
-    icon: FileText,
-    path: "/bookings",
-  },
-  {
-    title: "Véhicules",
-    icon: CarFront,
-    path: "/vehicles",
+    path: "/",
   },
 ];
 
