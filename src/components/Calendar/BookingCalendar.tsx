@@ -478,12 +478,21 @@ export const BookingCalendar = () => {
               </div>
               <div className="flex flex-1 relative">
                 {Array.from({ length: 24 }, (_, i) => (
-                  <div 
-                    key={i} 
-                    className="flex-shrink-0 w-20 border-r hover:bg-gray-50 transition-colors"
-                  >
-                    {/* Espace pour les réservations */}
-                  </div>
+                  <Dialog key={i}>
+                    <DialogTrigger asChild>
+                      <button 
+                        className="flex-shrink-0 w-20 border-r hover:bg-gray-50 transition-colors cursor-pointer w-full h-full"
+                      >
+                        {/* Cellule vide qui devient maintenant cliquable */}
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
+                      <DialogHeader>
+                        <DialogTitle>Nouvelle réservation</DialogTitle>
+                      </DialogHeader>
+                      <NewBookingForm />
+                    </DialogContent>
+                  </Dialog>
                 ))}
                 {/* Exemple de réservation (à adapter selon vos données) */}
                 {vehicle.id === "A025" && (
