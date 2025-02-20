@@ -22,11 +22,8 @@ export const VehicleList = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Véhicules</h2>
-        <button className="rounded-md bg-primary px-3 py-1 text-sm text-white transition-colors hover:bg-primary/90">
-          Ajouter
-        </button>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4">
         {vehicles.map((vehicle) => (
           <Card key={vehicle.id} className="p-4">
             <div className="flex items-start justify-between">

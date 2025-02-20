@@ -69,10 +69,10 @@ export const BookingCalendar = () => {
           </Select>
         </div>
       </div>
-      <div className="grid h-[600px] grid-cols-[auto_1fr] overflow-auto">
-        <div className="sticky left-0 w-20 border-r bg-white">
-          <div className="h-10 border-b" /> {/* Empty corner */}
-          <div className="space-y-4 p-2">
+      <div className="grid h-[400px] grid-cols-[auto_1fr] overflow-auto">
+        <div className="sticky left-0 w-16 border-r bg-white">
+          <div className="h-8 border-b" />
+          <div className="space-y-3 p-2">
             {timeSlots.map((time) => (
               <div key={time} className="text-xs text-slate-500">{time}</div>
             ))}
@@ -80,11 +80,8 @@ export const BookingCalendar = () => {
         </div>
         <div>
           <div className="grid grid-cols-7 border-b">
-            {weekDays.map((day, index) => (
-              <div
-                key={day}
-                className="h-10 border-l p-2 text-sm font-medium first:border-l-0"
-              >
+            {weekDays.map((day) => (
+              <div key={day} className="h-8 border-l p-2 text-xs font-medium first:border-l-0">
                 {day}
               </div>
             ))}
@@ -93,7 +90,7 @@ export const BookingCalendar = () => {
             {Array.from({ length: 7 }).map((_, dayIndex) => (
               <div key={dayIndex} className="border-l first:border-l-0">
                 {timeSlots.map((time) => (
-                  <div key={time} className="h-8 border-b" />
+                  <div key={time} className="h-6 border-b" />
                 ))}
               </div>
             ))}

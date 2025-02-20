@@ -1,6 +1,5 @@
 
 import { BookingCalendar } from "@/components/Calendar/BookingCalendar";
-import { BookingForm } from "@/components/Bookings/BookingForm";
 import { Sidebar } from "@/components/Layout/Sidebar";
 import { VehicleList } from "@/components/Vehicles/VehicleList";
 import { Link, useLocation } from "react-router-dom";
@@ -42,11 +41,12 @@ const Index = () => {
             </Button>
           </div>
         </div>
-        <div className="p-8 space-y-8">
-          <BookingCalendar />
-          <div className="grid gap-8 lg:grid-cols-2">
-            <BookingForm />
+        <div className="flex gap-8 p-8">
+          <div className="w-80">
             <VehicleList />
+          </div>
+          <div className="flex-1">
+            <BookingCalendar />
           </div>
         </div>
       </main>
