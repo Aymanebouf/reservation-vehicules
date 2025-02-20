@@ -1,6 +1,7 @@
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Edit, Search, X } from "lucide-react";
+import { PlusCircle, Edit, Search, X, ChevronLeft, ChevronRight, CarFront } from "lucide-react";
 import {
   Dialog,
   DialogContent,
