@@ -446,7 +446,6 @@ export const BookingCalendar = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        {/* En-tête avec les heures */}
         <div className="flex border-b">
           <div className="w-48 flex-shrink-0 border-r p-2 font-medium">
             Véhicules
@@ -463,7 +462,6 @@ export const BookingCalendar = () => {
           </div>
         </div>
 
-        {/* Timeline pour chaque véhicule */}
         <div className="overflow-auto">
           {vehicles.map((vehicle) => (
             <div key={vehicle.id} className="flex border-b">
@@ -477,14 +475,12 @@ export const BookingCalendar = () => {
                 </div>
               </div>
               <div className="flex flex-1 relative">
-                {Array.from({ length: 24 }, (_, i) => (
-                  <Dialog key={i}>
+                {Array.from({ length: 24 }, (_, hour) => (
+                  <Dialog key={hour}>
                     <DialogTrigger asChild>
                       <button 
-                        className="flex-shrink-0 w-20 border-r hover:bg-gray-50 transition-colors cursor-pointer w-full h-full"
-                      >
-                        {/* Cellule vide qui devient maintenant cliquable */}
-                      </button>
+                        className="flex-shrink-0 w-20 border-r hover:bg-gray-50 transition-colors cursor-pointer h-full"
+                      />
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
                       <DialogHeader>
@@ -494,7 +490,6 @@ export const BookingCalendar = () => {
                     </DialogContent>
                   </Dialog>
                 ))}
-                {/* Exemple de réservation (à adapter selon vos données) */}
                 {vehicle.id === "A025" && (
                   <div 
                     className="absolute top-1 left-[160px] w-[160px] bg-blue-100 border border-blue-200 rounded-sm p-1 text-xs"
