@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, CarFront, PlusCircle, Edit } from "lucide-react";
+import { ChevronLeft, ChevronRight, CarFront, PlusCircle, Edit, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -17,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 import NewBookingForm from "../Bookings/NewBookingForm";
 
 const weekDays = ["Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim."];
@@ -39,6 +41,59 @@ type TabType = 'calendar' | 'list' | 'vehicles';
 
 export const BookingCalendar = () => {
   const [activeTab, setActiveTab] = useState<TabType>('calendar');
+
+  const renderAddVehicleDialog = () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="gap-2">
+          <PlusCircle className="h-4 w-4" />
+          Ajouter Véhicule
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <div className="flex items-center justify-between">
+            <DialogTitle>Ajouter des véhicules</DialogTitle>
+            <Button variant="ghost" size="icon">
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </DialogHeader>
+        <div className="py-4">
+          <div className="relative">
+            <Input placeholder="Chercher" className="pr-8" />
+            <Search className="absolute right-2 top-2.5 h-4 w-4 text-gray-500" />
+          </div>
+          <div className="mt-4 flex gap-4 border-b">
+            <div className="flex items-center gap-2 pb-2">
+              <Checkbox id="selectAll" />
+              <label htmlFor="selectAll" className="text-sm">
+                Sélectionner tout
+              </label>
+            </div>
+            <div className="flex gap-4 ml-8">
+              <button className="border-b-2 border-primary px-4 pb-2 text-sm text-primary">
+                Individuel
+              </button>
+              <button className="px-4 pb-2 text-sm text-gray-600">
+                Groupes
+              </button>
+              <button className="px-4 pb-2 text-sm text-gray-600">
+                Entrepôts
+              </button>
+            </div>
+          </div>
+          <div className="min-h-[300px]">
+            {/* Zone de contenu pour les véhicules */}
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline">Annuler</Button>
+          <Button>Enregistrer</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
 
   const renderVehicleList = () => (
     <div className="space-y-4">
@@ -388,20 +443,6 @@ export const BookingCalendar = () => {
               Semaine
             </button>
           </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="gap-2">
-                <PlusCircle className="h-4 w-4" />
-                Nouvelle réservation
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
-              <DialogHeader>
-                <DialogTitle>Nouvelle réservation</DialogTitle>
-              </DialogHeader>
-              <NewBookingForm />
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
       <div className="grid grid-cols-[250px_auto_1fr] h-[calc(100vh-20rem)] overflow-hidden">
@@ -469,10 +510,7 @@ export const BookingCalendar = () => {
             </DialogContent>
           </Dialog>
         ) : (
-          <Button className="gap-2">
-            <PlusCircle className="h-4 w-4" />
-            Add vehicle
-          </Button>
+          renderAddVehicleDialog()
         )}
       </div>
 
