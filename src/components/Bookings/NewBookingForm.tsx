@@ -1,152 +1,140 @@
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { MapPin, Plus, X } from "lucide-react";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
+import { InputTextarea } from "primereact/inputtextarea";
 import Map from "../Map/Map";
-import { Textarea } from "@/components/ui/textarea";
 
 const NewBookingForm = () => {
   return (
-    <div className="grid grid-cols-[45%_55%] gap-6 h-[calc(100vh-10rem)]">
+    <div className="grid grid-cols-2 gap-6 h-90vh">
       <div className="space-y-8 p-6">
         <div>
-          <h2 className="text-xl font-medium text-slate-900 mb-6">Détails du voyage</h2>
+          <h2 className="text-xl font-medium text-900 mb-6">Détails du voyage</h2>
           
           <div className="space-y-6">
             <div>
               <div className="text-sm font-medium mb-2">Durée</div>
               <div className="space-y-4">
                 <div>
-                  <div className="text-sm text-gray-500 mb-1">Depuis</div>
+                  <div className="text-sm text-500 mb-1">Depuis</div>
                   <div className="flex gap-2">
                     <div className="flex-1">
-                      <Input defaultValue="20.02.2025" />
+                      <InputText defaultValue="20.02.2025" className="w-full" />
                     </div>
                     <div className="flex-1">
-                      <Input defaultValue="12:51" />
+                      <InputText defaultValue="12:51" className="w-full" />
                     </div>
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-500 mb-1">À</div>
+                  <div className="text-sm text-500 mb-1">À</div>
                   <div className="flex gap-2">
                     <div className="flex-1">
-                      <Input defaultValue="20.02.2025" />
+                      <InputText defaultValue="20.02.2025" className="w-full" />
                     </div>
                     <div className="flex-1">
-                      <Input defaultValue="13:51" />
+                      <InputText defaultValue="13:51" className="w-full" />
                     </div>
                   </div>
                 </div>
-                <div className="text-sm text-gray-500">Booking time: 1h</div>
+                <div className="text-sm text-500">Booking time: 1h</div>
               </div>
             </div>
 
             <div>
               <div className="text-sm font-medium mb-2">Conducteur</div>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez le pilote" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="pilot1">Pilot 1</SelectItem>
-                  <SelectItem value="pilot2">Pilot 2</SelectItem>
-                </SelectContent>
-              </Select>
+              <Dropdown
+                options={[
+                  { label: 'Pilot 1', value: 'pilot1' },
+                  { label: 'Pilot 2', value: 'pilot2' }
+                ]}
+                placeholder="Sélectionnez le pilote"
+                className="w-full"
+              />
             </div>
 
             <div>
               <div className="text-sm font-medium mb-2">Détails de l'itinéraire</div>
               <div className="space-y-2">
-                <div className="flex items-center gap-2 p-2 border rounded-md">
-                  <div className="bg-green-100 p-1 rounded">
-                    <MapPin className="h-4 w-4 text-green-600" />
+                <div className="flex align-items-center gap-2 p-2 border-1 border-round">
+                  <div className="bg-green-100 p-1 border-round">
+                    <i className="pi pi-map-marker text-green-600" style={{ fontSize: '1rem' }}></i>
                   </div>
-                  <Select>
-                    <SelectTrigger className="border-0 p-0 h-auto">
-                      <SelectValue placeholder="Base de départ" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="base1">Base 1</SelectItem>
-                      <SelectItem value="base2">Base 2</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Dropdown
+                    options={[
+                      { label: 'Base 1', value: 'base1' },
+                      { label: 'Base 2', value: 'base2' }
+                    ]}
+                    placeholder="Base de départ"
+                    className="w-full border-none p-0"
+                  />
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex align-items-center gap-2">
                   <div className="flex-1">
-                    <Input placeholder="Rechercher une adresse" />
+                    <InputText placeholder="Rechercher une adresse" className="w-full" />
                   </div>
-                  <Button variant="ghost" size="icon">
-                    <X className="h-4 w-4" />
-                  </Button>
+                  <Button icon="pi pi-times" text rounded />
                 </div>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Ajouter un arrêt
-                </Button>
+                <Button 
+                  label="Ajouter un arrêt" 
+                  text
+                  icon="pi pi-plus" 
+                  className="w-full justify-content-start text-primary hover:text-primary-600 hover:bg-primary-50"
+                />
               </div>
             </div>
 
             <div>
               <div className="text-sm font-medium mb-2">Transmission</div>
               <div className="flex gap-1">
-                <Button
-                  variant="outline"
-                  className="flex-1 bg-blue-600 text-white border-blue-600 hover:bg-blue-700 hover:text-white"
-                >
-                  N'importe lequel
-                </Button>
-                <Button variant="outline" className="flex-1">
-                  Manuel
-                </Button>
-                <Button variant="outline" className="flex-1">
-                  Automatique
-                </Button>
+                <Button 
+                  label="N'importe lequel" 
+                  className="flex-1 bg-primary text-white border-primary"
+                />
+                <Button 
+                  label="Manuel" 
+                  outlined 
+                  className="flex-1"
+                />
+                <Button 
+                  label="Automatique" 
+                  outlined 
+                  className="flex-1"
+                />
               </div>
             </div>
 
             <div>
               <div className="text-sm font-medium mb-2">Type de véhicule</div>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="N'importe lequel" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="any">N'importe lequel</SelectItem>
-                  <SelectItem value="sedan">Berline</SelectItem>
-                  <SelectItem value="suv">SUV</SelectItem>
-                </SelectContent>
-              </Select>
+              <Dropdown
+                options={[
+                  { label: "N'importe lequel", value: 'any' },
+                  { label: 'Berline', value: 'sedan' },
+                  { label: 'SUV', value: 'suv' }
+                ]}
+                placeholder="N'importe lequel"
+                className="w-full"
+              />
             </div>
 
             <div>
               <div className="text-sm font-medium mb-2">Des places</div>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="N'importe lequel" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="any">N'importe lequel</SelectItem>
-                  <SelectItem value="2">2 places</SelectItem>
-                  <SelectItem value="4">4 places</SelectItem>
-                  <SelectItem value="5">5 places</SelectItem>
-                </SelectContent>
-              </Select>
+              <Dropdown
+                options={[
+                  { label: "N'importe lequel", value: 'any' },
+                  { label: '2 places', value: '2' },
+                  { label: '4 places', value: '4' },
+                  { label: '5 places', value: '5' }
+                ]}
+                placeholder="N'importe lequel"
+                className="w-full"
+              />
             </div>
 
             <div>
               <div className="text-sm font-medium mb-2">Remarques</div>
-              <Textarea className="min-h-[100px] resize-none" />
+              <InputTextarea className="w-full min-h-10rem resize-none" />
             </div>
           </div>
         </div>

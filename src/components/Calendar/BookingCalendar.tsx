@@ -1,25 +1,12 @@
 
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { PlusCircle, Edit, Search, X, ChevronLeft, ChevronRight, CarFront } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import { Card } from "primereact/card";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { Dialog } from "primereact/dialog";
+import { Checkbox } from "primereact/checkbox";
+import { Dropdown } from "primereact/dropdown";
 import { useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { InputTextarea } from "primereact/inputtextarea";
 import NewBookingForm from "../Bookings/NewBookingForm";
 import { CalendarHeader } from "./CalendarHeader";
 import { TimeHeader } from "./TimeHeader";
@@ -44,64 +31,66 @@ type TabType = 'calendar' | 'list' | 'vehicles';
 
 export const BookingCalendar = () => {
   const [activeTab, setActiveTab] = useState<TabType>('calendar');
+  const [addVehicleVisible, setAddVehicleVisible] = useState(false);
+  const [newBookingVisible, setNewBookingVisible] = useState(false);
 
   const renderAddVehicleDialog = () => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="gap-2">
-          <PlusCircle className="h-4 w-4" />
-          Ajouter Véhicule
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle>Ajouter des véhicules</DialogTitle>
-            <Button variant="ghost" size="icon">
-              <X className="h-4 w-4" />
-            </Button>
+    <>
+      <Button 
+        label="Ajouter Véhicule" 
+        icon="pi pi-plus-circle" 
+        onClick={() => setAddVehicleVisible(true)}
+      />
+      <Dialog 
+        header="Ajouter des véhicules" 
+        visible={addVehicleVisible} 
+        style={{ width: '50vw' }} 
+        onHide={() => setAddVehicleVisible(false)}
+        footer={
+          <div>
+            <Button label="Annuler" outlined onClick={() => setAddVehicleVisible(false)} />
+            <Button label="Enregistrer" />
           </div>
-        </DialogHeader>
+        }
+      >
         <div className="py-4">
           <div className="relative">
-            <Input placeholder="Chercher" className="pr-8" />
-            <Search className="absolute right-2 top-2.5 h-4 w-4 text-gray-500" />
+            <span className="p-input-icon-right">
+              <i className="pi pi-search" />
+              <InputText placeholder="Chercher" className="w-full" />
+            </span>
           </div>
-          <div className="mt-4 flex gap-4 border-b">
-            <div className="flex items-center gap-2 pb-2">
-              <Checkbox id="selectAll" />
+          <div className="mt-4 flex gap-4 border-bottom-1">
+            <div className="flex align-items-center gap-2 pb-2">
+              <Checkbox inputId="selectAll" />
               <label htmlFor="selectAll" className="text-sm">
                 Sélectionner tout
               </label>
             </div>
             <div className="flex gap-4 ml-8">
-              <button className="border-b-2 border-primary px-4 pb-2 text-sm text-primary">
+              <button className="border-bottom-2 border-primary px-4 pb-2 text-sm text-primary">
                 Individuel
               </button>
-              <button className="px-4 pb-2 text-sm text-gray-600">
+              <button className="px-4 pb-2 text-sm text-600">
                 Groupes
               </button>
-              <button className="px-4 pb-2 text-sm text-gray-600">
+              <button className="px-4 pb-2 text-sm text-600">
                 Entrepôts
               </button>
             </div>
           </div>
-          <div className="min-h-[300px]">
+          <div className="min-h-20rem">
             {/* Zone de contenu pour les véhicules */}
           </div>
         </div>
-        <DialogFooter>
-          <Button variant="outline">Annuler</Button>
-          <Button>Enregistrer</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      </Dialog>
+    </>
   );
 
   const renderCalendar = () => (
-    <Card className="overflow-hidden">
+    <Card>
       <CalendarHeader />
-      <div className="flex flex-col">
+      <div className="flex flex-column">
         <TimeHeader />
         <CalendarTimeline vehicles={vehicles} />
       </div>
@@ -110,39 +99,37 @@ export const BookingCalendar = () => {
 
   const renderVehicleList = () => (
     <div className="space-y-4">
-      <div className="flex items-center gap-4">
+      <div className="flex align-items-center gap-4">
         <div className="space-y-1">
-          <div className="text-sm text-gray-500">Base</div>
-          <Select>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select Depot" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="depot1">Depot Grisoni</SelectItem>
-              <SelectItem value="depot2">Depot Central</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="text-sm text-500">Base</div>
+          <Dropdown
+            options={[
+              { label: 'Depot Grisoni', value: 'depot1' },
+              { label: 'Depot Central', value: 'depot2' }
+            ]}
+            placeholder="Select Depot"
+            className="w-12rem"
+          />
         </div>
 
         <div className="space-y-1">
-          <div className="text-sm text-gray-500">Statut</div>
-          <Select>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Tous les statuts" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous les statuts</SelectItem>
-              <SelectItem value="available">Disponible</SelectItem>
-              <SelectItem value="maintenance">En maintenance</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="text-sm text-500">Statut</div>
+          <Dropdown
+            options={[
+              { label: 'Tous les statuts', value: 'all' },
+              { label: 'Disponible', value: 'available' },
+              { label: 'En maintenance', value: 'maintenance' }
+            ]}
+            placeholder="Tous les statuts"
+            className="w-12rem"
+          />
         </div>
       </div>
 
-      <Card className="overflow-hidden">
+      <Card>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50 text-gray-600">
+            <thead className="bg-gray-50 text-600">
               <tr>
                 <th className="px-4 py-3">Véhicule</th>
                 <th className="px-4 py-3">Année</th>
@@ -153,13 +140,13 @@ export const BookingCalendar = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b">
+              <tr className="border-bottom-1">
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <CarFront className="h-4 w-4 text-slate-500" />
+                  <div className="flex align-items-center gap-2">
+                    <i className="pi pi-car text-500"></i>
                     <div>
-                      <div className="text-blue-600">A025</div>
-                      <div className="text-xs text-gray-500">-</div>
+                      <div className="text-primary">A025</div>
+                      <div className="text-xs text-500">-</div>
                     </div>
                   </div>
                 </td>
@@ -167,23 +154,21 @@ export const BookingCalendar = () => {
                 <td className="px-4 py-3">Depot Grisoni</td>
                 <td className="px-4 py-3">7'008,00km</td>
                 <td className="px-4 py-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span className="inline-flex align-items-center px-2 py-1 border-round text-xs font-medium bg-green-100 text-green-800">
                     Disponible
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <Button variant="ghost" size="icon">
-                    <Edit className="h-4 w-4" />
-                  </Button>
+                  <Button icon="pi pi-pencil" text />
                 </td>
               </tr>
-              <tr className="border-b">
+              <tr className="border-bottom-1">
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <CarFront className="h-4 w-4 text-slate-500" />
+                  <div className="flex align-items-center gap-2">
+                    <i className="pi pi-car text-500"></i>
                     <div>
-                      <div className="text-blue-600">A030</div>
-                      <div className="text-xs text-gray-500">Toyota Yaris</div>
+                      <div className="text-primary">A030</div>
+                      <div className="text-xs text-500">Toyota Yaris</div>
                     </div>
                   </div>
                 </td>
@@ -191,23 +176,21 @@ export const BookingCalendar = () => {
                 <td className="px-4 py-3">Depot Grisoni</td>
                 <td className="px-4 py-3">3'806,00km</td>
                 <td className="px-4 py-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span className="inline-flex align-items-center px-2 py-1 border-round text-xs font-medium bg-green-100 text-green-800">
                     Disponible
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <Button variant="ghost" size="icon">
-                    <Edit className="h-4 w-4" />
-                  </Button>
+                  <Button icon="pi pi-pencil" text />
                 </td>
               </tr>
-              <tr className="border-b">
+              <tr className="border-bottom-1">
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <CarFront className="h-4 w-4 text-slate-500" />
+                  <div className="flex align-items-center gap-2">
+                    <i className="pi pi-car text-500"></i>
                     <div>
-                      <div className="text-blue-600">A050</div>
-                      <div className="text-xs text-gray-500">Toyota Procar City van</div>
+                      <div className="text-primary">A050</div>
+                      <div className="text-xs text-500">Toyota Procar City van</div>
                     </div>
                   </div>
                 </td>
@@ -215,31 +198,28 @@ export const BookingCalendar = () => {
                 <td className="px-4 py-3">Depot Grisoni</td>
                 <td className="px-4 py-3">3'637,00km</td>
                 <td className="px-4 py-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span className="inline-flex align-items-center px-2 py-1 border-round text-xs font-medium bg-green-100 text-green-800">
                     Disponible
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <Button variant="ghost" size="icon">
-                    <Edit className="h-4 w-4" />
-                  </Button>
+                  <Button icon="pi pi-pencil" text />
                 </td>
               </tr>
             </tbody>
           </table>
-          <div className="flex items-center justify-between px-4 py-3 bg-gray-50">
-            <div className="text-sm text-gray-700">
+          <div className="flex align-items-center justify-content-between px-4 py-3 bg-gray-50">
+            <div className="text-sm text-700">
               Nombre de lignes : 
-              <Select defaultValue="10">
-                <SelectTrigger className="w-[70px] ml-2">
-                  <SelectValue placeholder="10" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="20">20</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                </SelectContent>
-              </Select>
+              <Dropdown
+                options={[
+                  { label: '10', value: '10' },
+                  { label: '20', value: '20' },
+                  { label: '50', value: '50' }
+                ]}
+                value="10"
+                className="w-5rem ml-2"
+              />
             </div>
           </div>
         </div>
@@ -249,77 +229,65 @@ export const BookingCalendar = () => {
 
   const renderBookingList = () => (
     <div className="space-y-4">
-      <div className="flex items-center gap-4">
+      <div className="flex align-items-center gap-4">
         <div className="space-y-1">
-          <div className="text-sm text-gray-500">Période</div>
-          <div className="flex items-center gap-2">
-            <Input
-              type="text"
-              value="17.02.2025 - 23.02.2025"
-              className="w-44"
-            />
-            <Button variant="outline" size="icon">
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon">
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+          <div className="text-sm text-500">Période</div>
+          <div className="flex align-items-center gap-2">
+            <InputText value="17.02.2025 - 23.02.2025" className="w-12rem" />
+            <Button icon="pi pi-chevron-left" outlined className="p-button-rounded p-button-sm" />
+            <Button icon="pi pi-chevron-right" outlined className="p-button-rounded p-button-sm" />
           </div>
         </div>
 
         <div className="space-y-1">
-          <div className="text-sm text-gray-500">Base</div>
-          <Select>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select Depot" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="depot1">Depot Grisoni</SelectItem>
-              <SelectItem value="depot2">Depot Central</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="text-sm text-500">Base</div>
+          <Dropdown
+            options={[
+              { label: 'Depot Grisoni', value: 'depot1' },
+              { label: 'Depot Central', value: 'depot2' }
+            ]}
+            placeholder="Select Depot"
+            className="w-12rem"
+          />
         </div>
 
         <div className="space-y-1">
-          <div className="text-sm text-gray-500">Conducteur</div>
-          <Select>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Sélectionnez le pilote" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="driver1">Wilson Seb</SelectItem>
-              <SelectItem value="driver2">Martin Paul</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="text-sm text-500">Conducteur</div>
+          <Dropdown
+            options={[
+              { label: 'Wilson Seb', value: 'driver1' },
+              { label: 'Martin Paul', value: 'driver2' }
+            ]}
+            placeholder="Sélectionnez le pilote"
+            className="w-12rem"
+          />
         </div>
 
         <div className="space-y-1">
-          <div className="text-sm text-gray-500">Statut</div>
-          <Select>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Tous les statuts" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous les statuts</SelectItem>
-              <SelectItem value="active">Actif</SelectItem>
-              <SelectItem value="completed">Terminé</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="text-sm text-500">Statut</div>
+          <Dropdown
+            options={[
+              { label: 'Tous les statuts', value: 'all' },
+              { label: 'Actif', value: 'active' },
+              { label: 'Terminé', value: 'completed' }
+            ]}
+            placeholder="Tous les statuts"
+            className="w-12rem"
+          />
         </div>
 
         <div className="flex-1">
-          <Input 
-            type="search" 
-            placeholder="Rechercher..." 
-            className="max-w-[300px] ml-auto"
-          />
+          <span className="p-input-icon-left w-full max-w-18rem ml-auto">
+            <i className="pi pi-search" />
+            <InputText placeholder="Rechercher..." className="w-full" />
+          </span>
         </div>
       </div>
 
-      <Card className="overflow-hidden">
+      <Card>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50 text-gray-600">
+            <thead className="bg-gray-50 text-600">
               <tr>
                 <th className="px-4 py-3">ID</th>
                 <th className="px-4 py-3">Véhicule</th>
@@ -334,7 +302,7 @@ export const BookingCalendar = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b">
+              <tr className="border-bottom-1">
                 <td className="px-4 py-3">27691</td>
                 <td className="px-4 py-3">A025</td>
                 <td className="px-4 py-3">Wilson Seb</td>
@@ -344,22 +312,18 @@ export const BookingCalendar = () => {
                 <td className="px-4 py-3">GRISONI GROUP</td>
                 <td className="px-4 py-3">-</td>
                 <td className="px-4 py-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span className="inline-flex align-items-center px-2 py-1 border-round text-xs font-medium bg-green-100 text-green-800">
                     Actif
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon">
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
+                  <div className="flex align-items-center gap-2">
+                    <Button icon="pi pi-chevron-left" outlined className="p-button-rounded p-button-sm" />
+                    <Button icon="pi pi-chevron-right" outlined className="p-button-rounded p-button-sm" />
                   </div>
                 </td>
               </tr>
-              <tr className="border-b">
+              <tr className="border-bottom-1">
                 <td className="px-4 py-3">27692</td>
                 <td className="px-4 py-3">A030</td>
                 <td className="px-4 py-3">Martin Paul</td>
@@ -369,22 +333,18 @@ export const BookingCalendar = () => {
                 <td className="px-4 py-3">GRISONI GROUP</td>
                 <td className="px-4 py-3">Livraison matériel</td>
                 <td className="px-4 py-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                  <span className="inline-flex align-items-center px-2 py-1 border-round text-xs font-medium bg-yellow-100 text-yellow-800">
                     En attente
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon">
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
+                  <div className="flex align-items-center gap-2">
+                    <Button icon="pi pi-chevron-left" outlined className="p-button-rounded p-button-sm" />
+                    <Button icon="pi pi-chevron-right" outlined className="p-button-rounded p-button-sm" />
                   </div>
                 </td>
               </tr>
-              <tr className="border-b">
+              <tr className="border-bottom-1">
                 <td className="px-4 py-3">27693</td>
                 <td className="px-4 py-3">A031</td>
                 <td className="px-4 py-3">Dubois Jean</td>
@@ -394,36 +354,31 @@ export const BookingCalendar = () => {
                 <td className="px-4 py-3">GRISONI GROUP</td>
                 <td className="px-4 py-3">Visite chantier</td>
                 <td className="px-4 py-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span className="inline-flex align-items-center px-2 py-1 border-round text-xs font-medium bg-green-100 text-green-800">
                     Actif
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon">
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
+                  <div className="flex align-items-center gap-2">
+                    <Button icon="pi pi-chevron-left" outlined className="p-button-rounded p-button-sm" />
+                    <Button icon="pi pi-chevron-right" outlined className="p-button-rounded p-button-sm" />
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
-          <div className="flex items-center justify-between px-4 py-3 bg-gray-50">
-            <div className="text-sm text-gray-700">
+          <div className="flex align-items-center justify-content-between px-4 py-3 bg-gray-50">
+            <div className="text-sm text-700">
               Nombre de lignes : 
-              <Select defaultValue="10">
-                <SelectTrigger className="w-[70px] ml-2">
-                  <SelectValue placeholder="10" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="20">20</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                </SelectContent>
-              </Select>
+              <Dropdown
+                options={[
+                  { label: '10', value: '10' },
+                  { label: '20', value: '20' },
+                  { label: '50', value: '50' }
+                ]}
+                value="10"
+                className="w-5rem ml-2"
+              />
             </div>
           </div>
         </div>
@@ -433,43 +388,45 @@ export const BookingCalendar = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex align-items-center justify-content-between">
         <h1 className="text-2xl font-semibold">Partage de voiture</h1>
         {activeTab !== 'vehicles' ? (
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="gap-2">
-                <PlusCircle className="h-4 w-4" />
-                Nouvelle réservation
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[90vw] sm:h-[90vh]">
-              <DialogHeader>
-                <DialogTitle>Nouvelle réservation</DialogTitle>
-              </DialogHeader>
+          <>
+            <Button 
+              label="Nouvelle réservation" 
+              icon="pi pi-plus-circle" 
+              onClick={() => setNewBookingVisible(true)}
+            />
+            <Dialog 
+              header="Nouvelle réservation" 
+              visible={newBookingVisible} 
+              style={{ width: '90vw', height: '90vh' }} 
+              onHide={() => setNewBookingVisible(false)}
+              maximizable
+            >
               <NewBookingForm />
-            </DialogContent>
-          </Dialog>
+            </Dialog>
+          </>
         ) : (
           renderAddVehicleDialog()
         )}
       </div>
 
-      <div className="flex border-b">
+      <div className="flex border-bottom-1">
         <button 
-          className={`px-4 py-2 border-b-2 ${activeTab === 'calendar' ? 'border-primary text-primary' : 'border-transparent text-gray-600 hover:border-gray-300'}`}
+          className={`px-4 py-2 border-bottom-2 ${activeTab === 'calendar' ? 'border-primary text-primary' : 'border-transparent text-600 hover:border-gray-300'}`}
           onClick={() => setActiveTab('calendar')}
         >
           Calendrier de réservation
         </button>
         <button 
-          className={`px-4 py-2 border-b-2 ${activeTab === 'list' ? 'border-primary text-primary' : 'border-transparent text-gray-600 hover:border-gray-300'}`}
+          className={`px-4 py-2 border-bottom-2 ${activeTab === 'list' ? 'border-primary text-primary' : 'border-transparent text-600 hover:border-gray-300'}`}
           onClick={() => setActiveTab('list')}
         >
           Réservations
         </button>
         <button 
-          className={`px-4 py-2 border-b-2 ${activeTab === 'vehicles' ? 'border-primary text-primary' : 'border-transparent text-gray-600 hover:border-gray-300'}`}
+          className={`px-4 py-2 border-bottom-2 ${activeTab === 'vehicles' ? 'border-primary text-primary' : 'border-transparent text-600 hover:border-gray-300'}`}
           onClick={() => setActiveTab('vehicles')}
         >
           Véhicules

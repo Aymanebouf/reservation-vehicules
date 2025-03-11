@@ -3,7 +3,7 @@ import { BookingCalendar } from "@/components/Calendar/BookingCalendar";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-surface-100 p-8">
       <BookingCalendar />
     </div>
   );
