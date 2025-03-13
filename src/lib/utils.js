@@ -1,7 +1,6 @@
 
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
 export function cn(...inputs) {
-  return twMerge(clsx(inputs));
+  // Cette fonction n'est pas nécessaire avec PrimeReact,
+  // mais nous la gardons pour compatibilité avec le code existant
+  return inputs.filter(Boolean).join(' ');
 }
