@@ -1,118 +1,178 @@
 
 import React, { useState } from "react";
+import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
-import { Calendar } from "primereact/calendar";
-import { Button } from "primereact/button";
+import { InputTextarea } from "primereact/inputtextarea";
+import Map from "../Map/Map";
 
-export const NewBookingForm = ({ vehicle, hour, onClose }) => {
+const NewBookingForm = ({ vehicle, hour, onClose }) => {
   const [formData, setFormData] = useState({
-    client: "",
-    date: new Date(),
-    startTime: hour || 8,
-    endTime: (hour || 8) + 2,
-    vehicleId: vehicle?.id || "",
+    startDate: "20.02.2025",
+    startTime: "12:51",
+    endDate: "20.02.2025",
+    endTime: "13:51",
+    driver: null,
+    startBase: null,
+    transmission: "any",
+    vehicleType: "any",
+    seats: "any",
+    notes: ""
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Formulaire soumis:", formData);
-    // Ici vous pourriez appeler votre API pour enregistrer la réservation
-    onClose && onClose();
-  };
-
-  const hourOptions = Array.from({ length: 24 }, (_, i) => ({ 
-    label: `${i}:00`, 
-    value: i 
-  }));
-
   return (
-    <div className="p-4">
-      <form onSubmit={handleSubmit} className="flex flex-column gap-4">
-        <div className="field">
-          <label htmlFor="client" className="block mb-2">Client</label>
-          <InputText
-            id="client"
-            name="client"
-            value={formData.client}
-            onChange={handleChange}
-            className="w-full"
-            required
-          />
-        </div>
+    <div className="grid grid-cols-2 gap-6 h-90vh">
+      <div className="space-y-8 p-6">
+        <div>
+          <h2 className="text-xl font-medium text-900 mb-6">Détails du voyage</h2>
+          
+          <div className="space-y-6">
+            <div>
+              <div className="text-sm font-medium mb-2">Durée</div>
+              <div className="space-y-4">
+                <div>
+                  <div className="text-sm text-500 mb-1">Depuis</div>
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <InputText value={formData.startDate} className="w-full" />
+                    </div>
+                    <div className="flex-1">
+                      <InputText value={formData.startTime} className="w-full" />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-500 mb-1">À</div>
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <InputText value={formData.endDate} className="w-full" />
+                    </div>
+                    <div className="flex-1">
+                      <InputText value={formData.endTime} className="w-full" />
+                    </div>
+                  </div>
+                </div>
+                <div className="text-sm text-500">Booking time: 1h</div>
+              </div>
+            </div>
 
-        <div className="field">
-          <label htmlFor="date" className="block mb-2">Date</label>
-          <Calendar
-            id="date"
-            name="date"
-            value={formData.date}
-            onChange={(e) => setFormData((prev) => ({ ...prev, date: e.value }))}
-            className="w-full"
-            required
-          />
-        </div>
+            <div>
+              <div className="text-sm font-medium mb-2">Conducteur</div>
+              <Dropdown
+                options={[
+                  { label: 'Pilot 1', value: 'pilot1' },
+                  { label: 'Pilot 2', value: 'pilot2' }
+                ]}
+                placeholder="Sélectionnez le pilote"
+                className="w-full"
+                value={formData.driver}
+                onChange={(e) => setFormData({...formData, driver: e.value})}
+              />
+            </div>
 
-        <div className="formgrid grid">
-          <div className="field col-6">
-            <label htmlFor="startTime" className="block mb-2">Heure de début</label>
-            <Dropdown
-              id="startTime"
-              name="startTime"
-              value={formData.startTime}
-              options={hourOptions}
-              onChange={handleChange}
-              className="w-full"
-              required
-            />
+            <div>
+              <div className="text-sm font-medium mb-2">Détails de l'itinéraire</div>
+              <div className="space-y-2">
+                <div className="flex align-items-center gap-2 p-2 border-1 border-round">
+                  <div className="bg-green-100 p-1 border-round">
+                    <i className="pi pi-map-marker text-green-600" style={{ fontSize: '1rem' }}></i>
+                  </div>
+                  <Dropdown
+                    options={[
+                      { label: 'Base 1', value: 'base1' },
+                      { label: 'Base 2', value: 'base2' }
+                    ]}
+                    placeholder="Base de départ"
+                    className="w-full border-none p-0"
+                    value={formData.startBase}
+                    onChange={(e) => setFormData({...formData, startBase: e.value})}
+                  />
+                </div>
+                <div className="flex align-items-center gap-2">
+                  <div className="flex-1">
+                    <InputText placeholder="Rechercher une adresse" className="w-full" />
+                  </div>
+                  <Button icon="pi pi-times" text rounded />
+                </div>
+                <Button 
+                  label="Ajouter un arrêt" 
+                  text
+                  icon="pi pi-plus" 
+                  className="w-full justify-content-start text-primary hover:text-primary-600 hover:bg-primary-50"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="text-sm font-medium mb-2">Transmission</div>
+              <div className="flex gap-1">
+                <Button 
+                  label="N'importe lequel" 
+                  className={`flex-1 ${formData.transmission === 'any' ? 'bg-primary text-white border-primary' : ''}`}
+                  onClick={() => setFormData({...formData, transmission: 'any'})}
+                />
+                <Button 
+                  label="Manuel" 
+                  outlined={formData.transmission !== 'manual'}
+                  className="flex-1"
+                  onClick={() => setFormData({...formData, transmission: 'manual'})}
+                />
+                <Button 
+                  label="Automatique" 
+                  outlined={formData.transmission !== 'auto'}
+                  className="flex-1"
+                  onClick={() => setFormData({...formData, transmission: 'auto'})}
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="text-sm font-medium mb-2">Type de véhicule</div>
+              <Dropdown
+                options={[
+                  { label: "N'importe lequel", value: 'any' },
+                  { label: 'Berline', value: 'sedan' },
+                  { label: 'SUV', value: 'suv' }
+                ]}
+                placeholder="N'importe lequel"
+                className="w-full"
+                value={formData.vehicleType}
+                onChange={(e) => setFormData({...formData, vehicleType: e.value})}
+              />
+            </div>
+
+            <div>
+              <div className="text-sm font-medium mb-2">Des places</div>
+              <Dropdown
+                options={[
+                  { label: "N'importe lequel", value: 'any' },
+                  { label: '2 places', value: '2' },
+                  { label: '4 places', value: '4' },
+                  { label: '5 places', value: '5' }
+                ]}
+                placeholder="N'importe lequel"
+                className="w-full"
+                value={formData.seats}
+                onChange={(e) => setFormData({...formData, seats: e.value})}
+              />
+            </div>
+
+            <div>
+              <div className="text-sm font-medium mb-2">Remarques</div>
+              <InputTextarea 
+                className="w-full min-h-10rem resize-none" 
+                value={formData.notes}
+                onChange={(e) => setFormData({...formData, notes: e.target.value})}
+              />
+            </div>
           </div>
-
-          <div className="field col-6">
-            <label htmlFor="endTime" className="block mb-2">Heure de fin</label>
-            <Dropdown
-              id="endTime"
-              name="endTime"
-              value={formData.endTime}
-              options={hourOptions}
-              onChange={handleChange}
-              className="w-full"
-              required
-            />
-          </div>
         </div>
-
-        <div className="field">
-          <label htmlFor="vehicleId" className="block mb-2">Véhicule</label>
-          <InputText
-            id="vehicleId"
-            name="vehicleId"
-            value={formData.vehicleId}
-            onChange={handleChange}
-            className="w-full"
-            disabled={!!vehicle}
-            required
-          />
-        </div>
-
-        <div className="flex justify-content-end gap-2 mt-4">
-          <Button
-            label="Annuler"
-            icon="pi pi-times"
-            onClick={onClose}
-            text
-          />
-          <Button
-            label="Réserver"
-            icon="pi pi-check"
-            type="submit"
-          />
-        </div>
-      </form>
+      </div>
+      <div className="h-full">
+        <Map />
+      </div>
     </div>
   );
 };
+
+export default NewBookingForm;

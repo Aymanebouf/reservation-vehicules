@@ -1,6 +1,9 @@
 
-export function cn(...inputs) {
-  // Cette fonction n'est pas nécessaire avec PrimeReact,
-  // mais nous la gardons pour compatibilité avec le code existant
-  return inputs.filter(Boolean).join(' ');
+/**
+ * Combines multiple class names into a single string
+ * @param  {...string} classes - Class names to combine
+ * @returns {string} - Combined class names
+ */
+export function cn(...classes) {
+  return classes.filter(Boolean).join(' ');
 }
