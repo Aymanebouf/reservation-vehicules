@@ -19,6 +19,6 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx'], // Support for TypeScript extensions
+    extensions: ['.js', '.jsx'], // Uniquement les extensions JS et JSX
   },
 }));

@@ -1,4 +1,6 @@
 
+import React from "react";
+
 export const TimeHeader = () => {
   return (
     <div className="flex border-bottom-1">

@@ -1,30 +1,34 @@
 
+import React, { useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
-import NewBookingForm from "../Bookings/NewBookingForm";
+import { NewBookingForm } from "../Bookings/NewBookingForm";
 
-interface Vehicle {
-  id: string;
-  name: string;
-  status: string;
-  type: string;
-}
+export const CalendarTimeline = ({ vehicles }) => {
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [selectedHour, setSelectedHour] = useState(null);
 
-interface CalendarTimelineProps {
-  vehicles: Vehicle[];
-}
+  const openBookingDialog = (hour, vehicle) => {
+    setSelectedVehicle(vehicle);
+    setSelectedHour(hour);
+    setDialogVisible(true);
+  };
 
-export const CalendarTimeline = ({ vehicles }: CalendarTimelineProps) => {
-  const renderBookingDialog = (hour: number, vehicle: Vehicle) => {
+  const renderBookingDialog = () => {
     return (
       <Dialog
         header="Nouvelle réservation"
-        visible={false}
+        visible={dialogVisible}
         style={{ width: '90vw', height: '90vh' }}
-        onHide={() => {}}
+        onHide={() => setDialogVisible(false)}
         maximizable
       >
-        <NewBookingForm />
+        <NewBookingForm 
+          vehicle={selectedVehicle}
+          hour={selectedHour}
+          onClose={() => setDialogVisible(false)}
+        />
       </Dialog>
     );
   };
@@ -48,7 +52,7 @@ export const CalendarTimeline = ({ vehicles }: CalendarTimelineProps) => {
                 key={hour}
                 className="flex-shrink-0 w-5rem border-right-1 hover:bg-gray-50 transition-colors cursor-pointer h-full"
                 text
-                onClick={() => {}}
+                onClick={() => openBookingDialog(hour, vehicle)}
               />
             ))}
             {vehicle.id === "A025" && (
@@ -60,7 +64,7 @@ export const CalendarTimeline = ({ vehicles }: CalendarTimelineProps) => {
                 <div className="text-500">8:00 - 12:00</div>
               </div>
             )}
-            {renderBookingDialog(0, vehicle)}
+            {renderBookingDialog()}
           </div>
         </div>
       ))}

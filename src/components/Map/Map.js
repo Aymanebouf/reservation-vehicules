@@ -1,11 +1,11 @@
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const Map = () => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
+  const mapContainer = useRef(null);
+  const map = useRef(null);
 
   useEffect(() => {
     if (!mapContainer.current) return;
