@@ -1,5 +1,5 @@
 
-import { BookingCalendar } from "@/components/Calendar/BookingCalendar";
+import { BookingCalendar } from "../components/Calendar/BookingCalendar";
 
 const Index = () => {
   return (
